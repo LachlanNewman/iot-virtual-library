@@ -1,0 +1,27 @@
+{
+  "config": {
+    "user": "pi",
+    "password": "[password]",
+    "host": "localhost",
+    "port": "5432",
+    "database": "pi"
+  },
+  "temperature_humidity": [
+    {
+      "key": "temperature",
+      "type": "float"
+    },
+    {
+      "key":"humidity",
+      "type":"float"
+    },
+    {
+      "key":"outside_range",
+      "type":"varchar"
+    },
+    {
+      "key":"notification_pushed",
+      "type":"varchar"
+    }
+  ]
+}
