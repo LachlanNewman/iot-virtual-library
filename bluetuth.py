@@ -1,8 +1,13 @@
 from pushNotification import PushNotification
 from sense_hat import SenseHat
 import subprocess as sp
+import bluetooth
 
 print("running bluetooth script")
+nearby_devices = bluetooth.discover_devices(lookup_names = True)
+for addr, name in nearby_devices:
+    print("%s - '%s'" % (addr, name))
+
 sense_hat = SenseHat()
 connected_devices = []
 
@@ -16,7 +21,7 @@ while True:
     p = sp.Popen(["bt-device", "--list"], stdin=sp.PIPE, stdout=sp.PIPE, close_fds=True)
     (stdout, stdin) = (p.stdout, p.stdin)
     bt_devices = stdout.readlines()
-
+    print(bt_devices)
     #check is any new bluetooth devices are connected
     for device in bt_devices[1:]:
         if(device not in connected_devices):
@@ -27,3 +32,4 @@ while True:
     for device in connected_devices:
         if device not in bt_devices:
             connected_devices.remove(device)
+
