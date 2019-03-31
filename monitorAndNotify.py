@@ -2,7 +2,7 @@ from sense_hat import SenseHat
 from database import Database
 from datetime import date
 import json
-import pushNotification
+from pushNotification import PushNotification
 
 access_token = "o.wmY4EKIUDwm3f1KeVnS43h9cfFRTXBHl"
 
@@ -33,7 +33,7 @@ class MonitorAndNotify:
         return self._sense_hat.get_humidity()
 
     def push_notification(self):
-        pushNotification.main()
+        PushNotification.send_notification_via_pushbullet("From Pi","Temperature Outsde range")
 
 table_name = 'temperature_humidity'
 monitorAndNotify = MonitorAndNotify('/home/pi/Sensors_Database/config.json')
@@ -53,8 +53,11 @@ date = date.today()
 push_sent = False
 select_query = """SELECT * FROM temperature_humidity 
                 where date = '{}' AND notification_pushed = 'true'""".format(date)
+results = db.query(select_query)
+print(results)
 if not db.query(select_query):
     #use push pullet to send the nootification
+    print(results)
     monitorAndNotify.push_notification()
     push_sent = True  # type: bool
 
