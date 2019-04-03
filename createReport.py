@@ -1,7 +1,13 @@
 import csv
 import json
+import pandas as pd
 from database import Database
 
+class CreateReport:
+
+    def __init__(self,report_file):
+        with open('report.csv', 'w') as reportFile:
+            self._writer = csv.writer(reportFile)
 
 def calc_difference(a, b):
     return abs(a - b)
@@ -12,6 +18,7 @@ db = Database('/home/pi/Sensors_Database/db.json')
 query = """SELECT date, MIN(temperature),MAX(temperature),MIN(humidity),MAX(humidity) from {} GROUP BY date""".format(
     table_name)
 db_rows = db.query(query)
+data = pd.DataFrame(db_rows)
 
 with open('/home/pi/Sensors_Database/config.json') as config_file:
     config = json.load(config_file)

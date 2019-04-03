@@ -1,8 +1,8 @@
+from pushNotification import PushNotification
 from sense_hat import SenseHat
 from database import Database
 from datetime import date
 import json
-from pushNotification import PushNotification
 
 access_token = "o.wmY4EKIUDwm3f1KeVnS43h9cfFRTXBHl"
 
