@@ -1,8 +1,16 @@
-import requests
+'''
+    PushBullet Notifications
+    LACHLAN NEWMAN
+'''
+
 import json
-import os
+import requests
 
 class PushNotification:
+    '''
+    Object which is used to send notification
+    via the pushbullet application
+    '''
     ACCESS_TOKEN = "o.wmY4EKIUDwm3f1KeVnS43h9cfFRTXBHl"
 
     @staticmethod

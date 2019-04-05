@@ -1,10 +1,17 @@
-import json
+'''
+    Database
+    LACHLAN NEWMAN
+'''
 
+
+import json
 import psycopg2
 
 
 class Database:
-
+    '''
+    Create an object that makes insert statements and queries
+    '''
     def __init__(self, config_file):
 
         with open(config_file) as db_config_file:
@@ -18,6 +25,10 @@ class Database:
             print("Error while connecting to PostgreSQL", error)
 
     def create_table(self, table_name):
+        '''
+        Creates a table in the database if it does not already exist
+        :param table_name:
+        '''
         create_table_query = "CREATE TABLE IF NOT EXISTS {}(".format(table_name)
         for item in self._db_config[table_name]:
             table_value = "{key} {type},".format(**item)
@@ -26,7 +37,12 @@ class Database:
         self._cursor.execute(create_table_query)
         self._connection.commit()
 
-    def insert(self, table_name,values:tuple):
+    def insert(self, table_name, values: tuple):
+        '''
+        Insers an entry into the table in database
+        :param table_name:
+        :param values:
+        '''
         insert_keys_query = " INSERT INTO {} (".format(table_name)
         insert_values_query = "VALUES("
         for item in self._db_config[table_name]:
@@ -36,13 +52,18 @@ class Database:
         insert_keys_query = insert_keys_query[:-1] + ")"
         insert_values_query = insert_values_query[:-1] + ")"
         insert_query = insert_keys_query + insert_values_query
-        self._cursor.execute(insert_query,values)
+        self._cursor.execute(insert_query, values)
         self._connection.commit()
 
-    def query(self,query):
+    def query(self, query):
+        '''
+        Exectutes a Query
+        :param query:
+        '''
         self._cursor.execute(query)
         return self._cursor.fetchall()
 
     def close(self):
+        '''Closes the DataBase'''
         self._cursor.close()
         self._connection.close()
