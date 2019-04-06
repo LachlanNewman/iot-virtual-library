@@ -22,24 +22,6 @@ class Analytics:
         self._date_label = date_label
         self._date_format = date_format
 
-    def data_from_db(self, table: str, columns: list):
-        '''
-        Opens a database object and returns a Dataframe
-        wth the query results
-        '''
-        database = Database('db.json')
-        query = "SELECT "
-        for column in columns:
-            query = query + "{},".format(column)
-        query = query[:-1] + " from {}".format(table)
-        results = database.query(query)
-        return pd.DataFrame(results, columns=columns)
-
-    def group_data_mean(self, dataframe):
-        '''Groups the Data into mean temperature and humidity for each day'''
-        grouped_data = dataframe.groupby('Date')
-        return grouped_data['Temperature', 'Humidity'].mean().reset_index()
-
     def set_date_interval(self, axis):
         '''Set the date interval and format for the graphs'''
         axis[0].set(xlabel='Date', ylabel='Temperature Celcius')
@@ -69,8 +51,9 @@ class Analytics:
 
 
 if __name__ == '__main__':
+    DB = Database('db.json')
+    DATA = DB.get_data()
+    MEAN_DATA = DATA.groupby('date')['temperature', 'humidity'].mean().reset_index()
     ANALYTICS = Analytics('Temperature', 'Humidity', 1, 1, 'Date', '%d-%m-%Y')
-    DATA = ANALYTICS.data_from_db('db.json', 'temperature_humidity', ['Temperature', 'Humidity', 'Date'])
-    MEAN_DATA = ANALYTICS.group_data_mean(DATA, ['Date'], ['Temperature', 'Humidity'])
     ANALYTICS.seaborn_plot(MEAN_DATA)
     ANALYTICS.matplotlib_plot(MEAN_DATA)

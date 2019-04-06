@@ -86,13 +86,14 @@ if __name__ == '__main__':
     OUTSIDE_RANGE = MONITOR_AND_NOTIFY.outside_temperature_range(TEMPERATURE) and \
                     MONITOR_AND_NOTIFY.outside_humidity_range(HUMIDITY)
     #check if notification has been pushed today
-    DATE = date.today()
+    DATE = date.today().strftime("%Y-%m-%d")
     PUSH_SENT = False
-    QUERY = """SELECT * FROM temperature_humidity where date = '{}' AND notification_pushed = 'true'""".format(DATE)
-    RESULTS = DB.query(QUERY)
-    if not DB.query(QUERY):
+    # QUERY = """SELECT * FROM temperature_humidity where date = '{}' AND notification_pushed = 'true'""".format(DATE)
+    DATA = DB.get_data()
+    TODAYS_DATA = DATA.loc[(DATA.notification_pushed == 'true') & (DATA.date == DATE)]
+    print(TODAYS_DATA)
+    if TODAYS_DATA.empty:
         #use push pullet to send the nootification
-        print(RESULTS)
         MONITOR_AND_NOTIFY.push_notification()
         PUSH_SENT = True
     # insert new values into the database
