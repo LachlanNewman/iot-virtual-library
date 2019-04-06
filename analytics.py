@@ -51,9 +51,15 @@ class Analytics:
 
 
 if __name__ == '__main__':
+    # Create Database Object
     DB = Database('db.json')
+    # Return Data from Database
     DATA = DB.get_data()
+    # Group Data into mean humidity and temperatures fro each day
     MEAN_DATA = DATA.groupby('date')['temperature', 'humidity'].mean().reset_index()
+    #Create Analytics Object
     ANALYTICS = Analytics('Temperature', 'Humidity', 1, 1, 'Date', '%d-%m-%Y')
+    # Plot the seaborn graph
     ANALYTICS.seaborn_plot(MEAN_DATA)
+    # plot the matlotlib graph
     ANALYTICS.matplotlib_plot(MEAN_DATA)

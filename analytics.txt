@@ -1,0 +1,11 @@
+The data collected by the sense hat is the temperature and humidity of the environment
+taken every minute. From the data I decided to plot the average temperature and humidity
+for each day. I decide to plot the temperature and humidity as a line graph since it is
+a depiction of the changes over time.
+
+The two libraries I used are Matplotlib and Seaborn. Matplotlib and Seaborn are two very
+similar libraries and in fact seaborn is a visualisation library build upon Matplotlib.
+The advantages of seaborn however would be more present if the data was not a measurement
+against time. The seaborn visualization library is very useful for allowing customization
+of graphs and unique graph types.
+
