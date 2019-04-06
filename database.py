@@ -6,6 +6,8 @@
 
 import json
 import psycopg2
+import pandas as pd
+from pandas.io import sql
 
 
 class Database:
@@ -61,7 +63,8 @@ class Database:
         :param query:
         '''
         self._cursor.execute(query)
-        return self._cursor.fetchall()
+        data = sql.read_sql(query,self._connection)
+        return data
 
     def close(self):
         '''Closes the DataBase'''

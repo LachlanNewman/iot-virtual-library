@@ -69,6 +69,12 @@ class Analytics:
 
 
 if __name__ == '__main__':
+    DB = Database('db.json')
+    QUERY = "SELECT * from temperature_humidity"
+    DATA = DB.query(QUERY)
+    print(DATA)
+    grouped_data = DATA.groupby('date')
+    print(grouped_data['temperature', 'humidity'].mean().reset_index())
     ANALYTICS = Analytics('Temperature', 'Humidity', 1, 1, 'Date', '%d-%m-%Y')
     DATA = ANALYTICS.data_from_db('db.json', 'temperature_humidity', ['Temperature', 'Humidity', 'Date'])
     MEAN_DATA = ANALYTICS.group_data_mean(DATA, ['Date'], ['Temperature', 'Humidity'])
