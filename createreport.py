@@ -82,14 +82,10 @@ class CreateReport:
 
 if __name__ == '__main__':
 
-    # Name of table in the database
-    TABLE_NAME = 'temperature_humidity'
     # Get access to the Database
     DB = Database('/home/pi/Sensors_Database/db.json')
-    # Create the database query
-    QUERY = """SELECT date,temperature,humidity from {}""".format(TABLE_NAME)
     # Create a Dataframe from the query
-    DATA = pd.DataFrame(DB.query(QUERY), columns=['Date', 'Temperature', 'Humidity', ])
+    DATA = DB.get_data()
     # Group data  by date and get minimum and maximum values for temperature
     # and humidity
     GROUPED_DATA = DATA.groupby('Date')['Temperature', 'Humidity'].agg(
